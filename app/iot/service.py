@@ -40,21 +40,9 @@ class IOTService:
     def get_device(self, device_id: str) -> Device:
         return self.devices[device_id]
 
-    async def run_program(self, programs: list[list[Message]]) -> None:
+    async def run_program(self, programs: list[Message]) -> None:
         print("=====RUNNING PROGRAM======")
-        messages = [self.run_sequence(program) for program in programs]
-        await asyncio.gather(*messages)
-        print("=====END OF PROGRAM======")
-
-    async def run_sequence(self, programs: list[Message]) -> None:
-        print("=====RUNNING PROGRAM======")
-        for program in programs:
-            await self.send_msg(program)
-        print("=====END OF PROGRAM======")
-
-    async def run_parallel(self, program: list[Message]) -> None:
-        print("=====RUNNING PROGRAM======")
-        messages = [self.send_msg(msg) for msg in program]
+        messages = [self.send_msg(program) for program in programs]
         await asyncio.gather(*messages)
         print("=====END OF PROGRAM======")
 
